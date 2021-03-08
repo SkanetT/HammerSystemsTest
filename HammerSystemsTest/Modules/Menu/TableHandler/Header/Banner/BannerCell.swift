@@ -20,5 +20,4 @@ class BannerCell: UICollectionViewCell {
     func setImage() {
         bannerPhoto.image = #imageLiteral(resourceName: "pizza")
     }
-
 }

@@ -59,9 +59,9 @@ extension MenuViewController: MenuPresenterOutput {
 
 extension MenuViewController: MenuTableDelegate {
     func tableViewDidScroll(offset: CGFloat) {
-        let c = offset + 230
+        let zeroOffset = offset + 230
 
-        let yOffset = c >= 214 ? 214 : c
+        let yOffset = zeroOffset >= 214 ? 214 : zeroOffset
         
         header.snp.updateConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-yOffset)

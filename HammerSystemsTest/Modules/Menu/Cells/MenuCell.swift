@@ -43,10 +43,7 @@ class MenuCell: UITableViewCell {
                 priceButton.setTitle("от \(price.description) ₽", for: .normal)
 
             }
-        }
-        
+        } 
         itemImageView.setKfImage(urlString: data.image.url)
     }
-    
-    
 }

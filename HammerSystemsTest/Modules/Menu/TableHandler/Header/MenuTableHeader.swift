@@ -16,8 +16,7 @@ class MenuTableHeader: UIView {
     var deliveryView: UIView!
     var bannerView: UIView!
     weak var delegate: MenuSegmentDelegate?
-    var category: ( (Int) -> Void )?
-
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
@@ -39,14 +38,14 @@ class MenuTableHeader: UIView {
         configureDeliveryView()
         configureBannerView()
         configureCategory()
+        
+        snp.makeConstraints{
+            $0.height.equalTo(268)
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func selectCategory(category:( (Int) -> Void )?) {
-        self.category = category
     }
     
     private func configureDeliveryView() {
@@ -54,11 +53,11 @@ class MenuTableHeader: UIView {
         deliveryView.backgroundColor = .systemGray6
         addSubview(deliveryView)
         deliveryView.snp.makeConstraints() {
-            $0.top.equalTo(snp.top).offset(8)
-            $0.left.equalTo(snp.left).offset(8)
-            $0.right.equalTo(snp.right).offset(-8)
+            $0.top.equalToSuperview().offset(8)
+            $0.left.equalToSuperview().offset(8)
+            $0.right.equalToSuperview().offset(-8)
             $0.height.equalTo(100)
-
+            
         }
         deliveryView.clipsToBounds = true
         deliveryView.layer.cornerRadius = 8
@@ -69,22 +68,36 @@ class MenuTableHeader: UIView {
         segmentedControl.isUserInteractionEnabled = false
         deliveryView.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints() {
-            $0.top.equalTo(deliveryView.snp.top).offset(8)
-            $0.left.equalTo(deliveryView.snp.left).offset(8)
-            $0.right.equalTo(deliveryView.snp.right).offset(-8)
+            $0.top.equalToSuperview().offset(8)
+            $0.left.equalToSuperview().offset(8)
+            $0.right.equalToSuperview().offset(-8)
         }
         let addressLabel = UILabel()
         addressLabel.textColor = .systemOrange
         deliveryView.addSubview(addressLabel)
         addressLabel.snp.makeConstraints() {
             $0.top.equalTo(segmentedControl.snp.bottom).offset(8)
-            $0.left.equalTo(deliveryView.snp.left).offset(8)
-            $0.right.equalTo(deliveryView.snp.right).offset(-8)
-            $0.bottom.equalTo(deliveryView.snp.bottom).offset(-8)
+            $0.left.equalToSuperview().offset(8)
+            $0.right.equalToSuperview().offset(-8)
+            $0.bottom.equalToSuperview().offset(-8)
         }
         addressLabel.textAlignment = .center
         addressLabel.font = addressLabel.font.withSize(14)
         addressLabel.text = "Указать адрес доставки >"
+    }
+    
+    
+    
+    private func configureBannerView() {
+        bannerView = BannerView()
+        addSubview(bannerView)
+        bannerView.snp.makeConstraints() {
+            $0.top.equalTo(deliveryView.snp.bottom).offset(8)
+            $0.left.equalTo(snp.left).offset(8)
+            $0.right.equalTo(snp.right).offset(-8)
+            $0.height.equalTo(92)
+        }
+        
     }
     
     private func configureCategory() {
@@ -103,20 +116,6 @@ class MenuTableHeader: UIView {
         layer.shadowOpacity = 0.09
     }
     
-    private func configureBannerView() {
-        bannerView = BannerView()
-        addSubview(bannerView)
-        bannerView.snp.makeConstraints() {
-            $0.top.equalTo(deliveryView.snp.bottom).offset(8)
-            $0.left.equalTo(snp.left).offset(8)
-            $0.right.equalTo(snp.right).offset(-8)
-            $0.height.equalTo(92)
-        }
-        
-        snp.makeConstraints{
-            $0.height.equalTo(268)
-        }
-    }
 }
 
 extension MenuTableHeader: UICollectionViewDelegate,

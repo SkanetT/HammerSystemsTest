@@ -48,7 +48,6 @@ extension MenuTableHandler: UITableViewDelegate,
         return cell
     }
     
-    
     private func fetchIndexToCategory(category: Int) -> Int {
         var  result = 0
         if let index = data.firstIndex(where: {$0.category == category}) {
@@ -64,11 +63,12 @@ extension MenuTableHandler: UIScrollViewDelegate {
     }
 }
 
-
 extension MenuTableHandler: MenuSegmentDelegate {
     func didSelectSegment(_ value: Categories) {
         if let index = data.firstIndex(where: {$0.category == value.category}) {
+            tableView?.contentInset.top = 40
             tableView?.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+            tableView?.contentInset.top = 230
         }
     }
 }

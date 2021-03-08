@@ -20,7 +20,7 @@ extension UIImageView {
                 .cacheOriginalImage
             ])
     }
-
+    
     func cancelDownload() {
         self.image = nil
         self.kf.cancelDownloadTask()

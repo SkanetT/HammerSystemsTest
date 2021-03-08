@@ -20,5 +20,4 @@ class CategoryCell: UICollectionViewCell {
     func setLabel(_ category: String) {
         categoryLabel.text = category
     }
-
 }
