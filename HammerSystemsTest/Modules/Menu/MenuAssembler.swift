@@ -15,6 +15,8 @@ class MenuAssembler {
         let tableHandler = MenuTableHandler()
         viewController.presenter = presenter
         viewController.tableHandler = tableHandler
+        tableHandler.delegate = viewController
+        viewController.header.delegate = tableHandler
         return viewController
     }
 }

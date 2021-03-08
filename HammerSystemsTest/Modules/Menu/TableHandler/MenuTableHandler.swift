@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol MenuTableDelegate: AnyObject {
+    func tableViewDidScroll(offset: CGFloat)
+}
+
 class MenuTableHandler: NSObject,
                         MenuTableHandlerProtocol {
     
     private weak var tableView: UITableView?
     private var data: [Item] = []
+    weak var delegate: MenuTableDelegate?
     
     func attach(_ tableView: UITableView) {
         self.tableView = tableView
@@ -43,31 +48,27 @@ extension MenuTableHandler: UITableViewDelegate,
         return cell
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = MenuTableHeader()
-        
-        header.selectCategory() { [weak self] category in
-            guard let self = self else { return }
-            let row = self.fetchIndexToCategory(category: category)
-            let indexPath = IndexPath(row: row, section: 0)
-            tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-        }
-        
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return UIScreen.main.bounds.height / 3
-    }
     
     private func fetchIndexToCategory(category: Int) -> Int {
         var  result = 0
         if let index = data.firstIndex(where: {$0.category == category}) {
             result = index
         }
-        
         return result
     }
-    
 }
 
+extension MenuTableHandler: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        delegate?.tableViewDidScroll(offset: scrollView.contentOffset.y)
+    }
+}
+
+
+extension MenuTableHandler: MenuSegmentDelegate {
+    func didSelectSegment(_ value: Categories) {
+        if let index = data.firstIndex(where: {$0.category == value.category}) {
+            tableView?.scrollToRow(at: IndexPath(row: index, section: 0), at: .top, animated: true)
+        }
+    }
+}

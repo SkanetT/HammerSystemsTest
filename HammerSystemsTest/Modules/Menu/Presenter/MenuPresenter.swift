@@ -32,12 +32,12 @@ class MenuPresenter: MenuPresenterInput {
 extension MenuPresenter: MenuInteractorOutput {
     func menuSuccess(_ menu: MenuModel) {
         
-        let pizza = menu.items.filter( {$0.category == 1} )
-        let combo = menu.items.filter( {$0.category == 100} )
-        let snacks = menu.items.filter( {$0.category == 3} )
-        let desserts = menu.items.filter( {$0.category == 6} )
-        let drinks = menu.items.filter( {$0.category == 2} )
-        let others = menu.items.filter( {$0.category == 5} )
+        let pizza = menu.items.filter( {$0.category == Categories.pizza.category} )
+        let combo = menu.items.filter( {$0.category == Categories.combo.category} )
+        let snacks = menu.items.filter( {$0.category == Categories.snacks.category} )
+        let desserts = menu.items.filter( {$0.category == Categories.desserts.category} )
+        let drinks = menu.items.filter( {$0.category == Categories.drinks.category} )
+        let others = menu.items.filter( {$0.category == Categories.others.category} )
         
         let finalMenu = MenuModel(items: pizza + combo + snacks + desserts + drinks + others)
         viewController?.didReceiveMenuData(finalMenu)

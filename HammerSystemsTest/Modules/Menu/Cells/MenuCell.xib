@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="271" height="132"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="xF5-EB-H7z">
+                    <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="xF5-EB-H7z">
                         <rect key="frame" x="132" y="29" width="123" height="74.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.59999999999999998" translatesAutoresizingMaskIntoConstraints="NO" id="Yey-s3-Evf">
@@ -32,24 +32,28 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleAspectFill" distribution="fillEqually" alignment="firstBaseline" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="dLI-iE-rLk">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WCb-PP-BnY">
                                 <rect key="frame" x="0.0" y="44.5" width="123" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qe9-em-kQI">
-                                        <rect key="frame" x="0.0" y="0.0" width="57.5" height="30"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="75" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="75" id="vpM-1r-eus"/>
+                                        </constraints>
                                         <state key="normal" title="Button">
                                             <color key="titleColor" systemColor="systemOrangeColor"/>
                                         </state>
                                     </button>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="441-4n-3fg">
-                                        <rect key="frame" x="65.5" y="0.0" width="57.5" height="30"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                    </view>
                                 </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="Cr2-z5-j4l"/>
+                                    <constraint firstItem="qe9-em-kQI" firstAttribute="top" secondItem="WCb-PP-BnY" secondAttribute="top" id="9rL-gH-aHB"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qe9-em-kQI" secondAttribute="trailing" id="RWK-7n-J3u"/>
+                                    <constraint firstItem="qe9-em-kQI" firstAttribute="leading" secondItem="WCb-PP-BnY" secondAttribute="leading" id="r1f-0t-N6d"/>
+                                    <constraint firstAttribute="bottom" secondItem="qe9-em-kQI" secondAttribute="bottom" id="ulq-V2-LoN"/>
+                                    <constraint firstAttribute="height" constant="30" id="yjT-Fk-sSi"/>
                                 </constraints>
-                            </stackView>
+                            </view>
                         </subviews>
                     </stackView>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eRv-ho-8Q6">
@@ -59,6 +63,7 @@
                         </constraints>
                     </imageView>
                 </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
                     <constraint firstItem="eRv-ho-8Q6" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="8HI-Uk-KlZ"/>
                     <constraint firstItem="xF5-EB-H7z" firstAttribute="top" relation="greaterThanOrEqual" secondItem="H2p-sc-9uM" secondAttribute="top" constant="16" id="Q6F-2q-sZR"/>

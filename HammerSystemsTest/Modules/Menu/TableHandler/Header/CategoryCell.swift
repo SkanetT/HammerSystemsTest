@@ -14,7 +14,7 @@ class CategoryCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         clipsToBounds = true
-        layer.cornerRadius = 8
+        layer.cornerRadius = 16
     }
     
     func setLabel(_ category: String) {

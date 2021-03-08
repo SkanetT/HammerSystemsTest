@@ -7,20 +7,38 @@
 
 import UIKit
 
+protocol MenuSegmentDelegate: AnyObject {
+    func didSelectSegment(_ value: Categories)
+}
+
 class MenuTableHeader: UIView {
     
     var deliveryView: UIView!
     var bannerView: UIView!
-    var collectionView: UICollectionView!
+    weak var delegate: MenuSegmentDelegate?
     var category: ( (Int) -> Void )?
+
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.backgroundColor = .white
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.register(UINib(nibName: CategoryCell.identifier, bundle: nil), forCellWithReuseIdentifier: CategoryCell.identifier)
+        return collectionView
+    }()
+    
+    private let categories = Categories.allCases
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         backgroundColor = .systemBackground
         configureDeliveryView()
         configureBannerView()
-        configureCategoryCollection()
+        configureCategory()
     }
     
     required init?(coder: NSCoder) {
@@ -31,7 +49,6 @@ class MenuTableHeader: UIView {
         self.category = category
     }
     
-    
     private func configureDeliveryView() {
         deliveryView = UIView()
         deliveryView.backgroundColor = .systemGray6
@@ -40,7 +57,8 @@ class MenuTableHeader: UIView {
             $0.top.equalTo(snp.top).offset(8)
             $0.left.equalTo(snp.left).offset(8)
             $0.right.equalTo(snp.right).offset(-8)
-            $0.height.equalTo(snp.height).multipliedBy(0.35)
+            $0.height.equalTo(100)
+
         }
         deliveryView.clipsToBounds = true
         deliveryView.layer.cornerRadius = 8
@@ -69,6 +87,22 @@ class MenuTableHeader: UIView {
         addressLabel.text = "Указать адрес доставки >"
     }
     
+    private func configureCategory() {
+        backgroundColor = .white
+        addSubview(collectionView)
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(bannerView.snp.bottom).offset(8)
+            $0.leading.equalToSuperview().offset(8)
+            $0.trailing.equalToSuperview().offset(-8)
+            $0.height.equalTo(32)
+        }
+        
+        layer.shadowOffset = .init(width: 0, height: 20)
+        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowRadius = 4
+        layer.shadowOpacity = 0.09
+    }
+    
     private func configureBannerView() {
         bannerView = BannerView()
         addSubview(bannerView)
@@ -76,30 +110,12 @@ class MenuTableHeader: UIView {
             $0.top.equalTo(deliveryView.snp.bottom).offset(8)
             $0.left.equalTo(snp.left).offset(8)
             $0.right.equalTo(snp.right).offset(-8)
-            $0.height.equalTo(snp.height).multipliedBy(0.425)
-        }
-    }
-    
-    private func configureCategoryCollection() {
-        let layout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.scrollDirection = .horizontal
-        collectionView = UICollectionView(frame: frame, collectionViewLayout: layout)
-        collectionView.backgroundColor = .systemBackground
-        collectionView.register(UINib(nibName: CategoryCell.identifier, bundle: nil), forCellWithReuseIdentifier: CategoryCell.identifier)
-        addSubview(collectionView)
-        
-        collectionView.snp.makeConstraints() {
-            $0.top.equalTo(bannerView.snp.bottom)
-            $0.left.equalTo(snp.left).offset(8)
-            $0.right.equalTo(snp.right).offset(-8)
-            $0.bottom.equalTo(snp.bottom).offset(-8)
+            $0.height.equalTo(92)
         }
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.reloadData()
+        snp.makeConstraints{
+            $0.height.equalTo(268)
+        }
     }
 }
 
@@ -107,28 +123,12 @@ extension MenuTableHeader: UICollectionViewDelegate,
                            UICollectionViewDataSource,
                            UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 6
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCell.identifier, for: indexPath) as? CategoryCell else { return .init() }
-        
-        switch indexPath.row {
-        case 0:
-            cell.setLabel("Пицца")
-        case 1:
-            cell.setLabel("Комбо")
-        case 2:
-            cell.setLabel("Закуски")
-        case 3:
-            cell.setLabel("Десреты")
-        case 4:
-            cell.setLabel("Напитки")
-        case 5:
-            cell.setLabel("Другие товары")
-        default:
-            break
-        }
+        cell.setLabel(categories[indexPath.row].rawValue)
         return cell
     }
     
@@ -138,21 +138,7 @@ extension MenuTableHeader: UICollectionViewDelegate,
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            category?(1)
-        case 1:
-            category?(100)
-        case 2:
-            category?(3)
-        case 3:
-            category?(6)
-        case 4:
-            category?(2)
-        case 5:
-            category?(5)
-        default:
-            break
-        }
+        delegate?.didSelectSegment(categories[indexPath.row])
     }
 }
+
