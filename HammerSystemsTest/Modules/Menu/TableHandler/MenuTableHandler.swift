@@ -30,8 +30,7 @@ class MenuTableHandler: NSObject,
     func setData(_ data: MenuModel) {
         self.data = data.items
         tableView?.reloadData()
-    }
-    
+    }    
 }
 
 extension MenuTableHandler: UITableViewDelegate,
@@ -46,14 +45,6 @@ extension MenuTableHandler: UITableViewDelegate,
         cell.setData(data[indexPath.row])
         
         return cell
-    }
-    
-    private func fetchIndexToCategory(category: Int) -> Int {
-        var  result = 0
-        if let index = data.firstIndex(where: {$0.category == category}) {
-            result = index
-        }
-        return result
     }
 }
 
