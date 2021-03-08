@@ -15,8 +15,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow()
         window?.windowScene = windowScene
-        let view = MenuAssembler.createModule()
-        window?.rootViewController = view
+        window?.overrideUserInterfaceStyle = .light
+        let tabBarController = TabBar()
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
     

@@ -10,8 +10,11 @@ import UIKit
 class MenuAssembler {
     static func createModule() -> UIViewController {
         let viewController = MenuViewController()
-        let presenter = MenuPresenter()
+        let interactor = MenuInteractor()
+        let presenter = MenuPresenter(interactor)
+        let tableHandler = MenuTableHandler()
         viewController.presenter = presenter
+        viewController.tableHandler = tableHandler
         return viewController
     }
 }

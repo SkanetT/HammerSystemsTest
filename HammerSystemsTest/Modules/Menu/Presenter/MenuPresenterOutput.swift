@@ -9,4 +9,6 @@ import Foundation
 
 protocol MenuPresenterOutput: AnyObject {
     func configureUi()
+    func configureNavigationBar()
+    func didReceiveMenuData(_ menu: MenuModel)
 }
